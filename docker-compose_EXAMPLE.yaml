@@ -1,6 +1,6 @@
 services:
   bankdocumentstocsv:
-    image: ghcr.io/rpadafo/bankdocumentstocsv:latest
+    image: ghcr.io/rpadafo/bank_documents_to_csv:latest
     container_name: bankdocumentstocsv
     restart: unless-stopped
     environment:
