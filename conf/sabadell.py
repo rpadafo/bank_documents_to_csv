@@ -1,5 +1,16 @@
 # conf/sabadell.py
 import os
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger()
+
+ERROR_RED = "\033[1;31m"
+RESET_COLOR = "\033[0m"
 
 def process(source_path, output_path, file_name):
     """
@@ -15,4 +26,4 @@ def process(source_path, output_path, file_name):
     with open(csv_path, 'wb') as f_destination:
         f_destination.write(content)
         
-    print(f"✅ [Sabadell] Extension successfully changed to CSV: {output_path}")
+    logger.info(f"[Sabadell] ✅ Extension successfully changed to CSV: {output_path}")
