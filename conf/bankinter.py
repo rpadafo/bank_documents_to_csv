@@ -26,5 +26,5 @@ def process(source_path, output_path, file_name):
 
     base_name = os.path.splitext(file_name)[0]
     output_path = os.path.join(output_path, f"BK_{base_name}.csv")
-    df_clean.to_csv(output_path, index=False, encoding='latin1', sep=';')
+    df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';', decimal=',')
     print(f"✅ [Bankinter] CSV successfully saved to: {output_path}")
