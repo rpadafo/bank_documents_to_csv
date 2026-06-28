@@ -29,7 +29,7 @@ def process(source_path, output_path, file_name):
             break
             
     if header_row is None:
-        raise ValueError("❌ [Santander] The row containing 'FECHA OPERACION' was not found in the file.")
+        raise ValueError("[Santander] ❌ The row containing 'FECHA OPERACION' was not found in the file.")
         
     logger.info(f"[Santander] 'Fecha operacion' detected on line: {header_row + 1}")
     
@@ -39,4 +39,4 @@ def process(source_path, output_path, file_name):
     base_name = os.path.splitext(file_name)[0]
     output_path = os.path.join(output_path, f"SA_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
-    logger.info(f"✅ [Santander] CSV successfully saved to: {output_path}")
+    logger.info(f"[Santander] ✅ CSV successfully saved to: {output_path}")

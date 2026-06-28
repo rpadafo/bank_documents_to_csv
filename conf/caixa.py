@@ -29,7 +29,7 @@ def process(source_path, output_path, file_name):
             break
             
     if header_row is None:
-        raise ValueError("❌ [Caixa] The row containing 'Fecha' was not found in the file.")
+        raise ValueError("[Caixa] ❌ The row containing 'Fecha' was not found in the file.")
         
     logger.info(f"[Caixa] 'Fecha' detected on line: {header_row + 1}")
     
@@ -46,4 +46,4 @@ def process(source_path, output_path, file_name):
     base_name = os.path.splitext(file_name)[0]
     output_path = os.path.join(output_path, f"CA_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
-    logger.info(f"✅ [Caixa] CSV successfully saved to: {output_path}")
+    logger.info(f"[Caixa] ✅ CSV successfully saved to: {output_path}")

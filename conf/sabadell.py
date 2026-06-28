@@ -26,4 +26,4 @@ def process(source_path, output_path, file_name):
     with open(csv_path, 'wb') as f_destination:
         f_destination.write(content)
         
-    logger.info(f"✅ [Sabadell] Extension successfully changed to CSV: {output_path}")
+    logger.info(f"[Sabadell] ✅ Extension successfully changed to CSV: {output_path}")
