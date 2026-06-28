@@ -1,0 +1,16 @@
+services:
+  bankdocumentstocsv:
+    image: ghcr.io/rpadafo/bankdocumentstocsv:latest
+    container_name: bankdocumentstocsv
+    restart: unless-stopped
+    environment:
+      - RETENTION_HOUR=12
+    deploy:
+        resources:
+            limits:
+                cpus: '1'
+                memory: 100M
+    volumes:
+      # Two folders required, excel and CSV >>
+      - ./excel:/excel
+      - ./csv:/csv
