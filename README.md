@@ -9,10 +9,10 @@ Convert all documents in Excel or TXT format from Spanish banks into CSV files s
 ## Features
 
 At this moment you can only use this banks:
-    * Bankinter (Excel)
-    * Caixa bank now (Excel)
-    * Santander (Excel)
-    * Sabadell (TXT)
+ * Bankinter (Excel)
+ * Caixa bank now (Excel)
+ * Santander (Excel)
+ * Sabadell (TXT)
 
 ## Usage
 
@@ -43,4 +43,4 @@ Then you only need to copy the documents from the banks to the EXCEL folder and 
 You need to setup each bank in Actual Budget, and import each CSV to each bank.
 
 > [!TIP]
->** For Sabadell, it is not a CSV, so you need to choose the | symbol for field separator. For Sabadell, only change the extension of the file, but the content is the same.
+> For Sabadell, it is not a CSV, so you need to choose the | symbol for field separator. For Sabadell, only change the extension of the file, but the content is the same.
