@@ -1,6 +1,6 @@
 import os
 import time
-import re
+import logging
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -14,13 +14,23 @@ IN_FOLDER = "/excel"
 OUT_FOLDER = "/csv"
 RETENTION_HOUR = int(os.environ.get("RETENTION_HOUR", 12))
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger()
+
+ERROR_RED = "\033[1;31m"
+RESET_COLOR = "\033[0m"
+
 def clean_old_csv():
     # Delete all files in OUT_FOLDER when RETENTION_HOUR is over
     now = time.time()
     # Hours to seconds (RETENTION_HOUR * 60 * 60 = x seconds)
     limit_seconds = RETENTION_HOUR * 3600
     
-    print(f"🧹 Running automatic cleanup of files older than {RETENTION_HOUR} hours")
+    logger.info(f"🧹 Running automatic cleanup of files older than {RETENTION_HOUR} hours")
     
     try:
         for file_name in os.listdir(OUT_FOLDER):
@@ -30,55 +40,55 @@ def clean_old_csv():
                 modification_date = os.path.getmtime(full_path_file)
                 if (now - modification_date) > limit_seconds:
                     os.remove(full_path_file)
-                    print(f"🗑️ Deleted {file_name} file")
+                    logger.info(f"🗑️ Deleted {file_name} file")
     except Exception as e:
-        print(f"⚠️ Error while deleting files: {e}")
+        logger.info(f"{ERROR_RED}⚠️ Error while deleting files: {e}{RESET_COLOR}")
 
 class FilesMonitor(FileSystemEventHandler):
     def on_created(self, event):
         if event.is_directory or os.path.basename(event.src_path).startswith("~$"):
             return
+
+        # Cleaning
+        clean_old_csv()
             
         file_name = os.path.basename(event.src_path)
         file_name_lower = file_name.lower()
 
         if file_name_lower.endswith(('.xlsx', '.xls', '.txt')):
-            print(f"\n⚡ Find: {file_name}")
+            logger.info(f"⚡ Find: {file_name}")
             time.sleep(2) # Wait for complete copy
             
             try:
                 # 1. SANTANDER (Files starts with transactions)
                 if file_name_lower.startswith("transactions"):
-                    print("-> Using [Santander] module")
+                    logger.info("-> Using [Santander] module")
                     santander.process(event.src_path,OUT_FOLDER,file_name)
 
                 # 2. LA CAIXA
                 elif file_name_lower.startswith("movimientos_cuenta"):
-                    print("-> Using [Caixa] module")
+                    logger.info("-> Using [Caixa] module")
                     caixa.process(event.src_path,OUT_FOLDER,file_name)
 
                 # 3. BANKINTER
                 elif file_name_lower.startswith("movimientos"):
-                    print("-> Using [Bankinter] module")
+                    logger.info("-> Using [Bankinter] module")
                     bankinter.process(event.src_path,OUT_FOLDER,file_name)
 
                 # 4. CASO SABADELL
                 elif file_name_lower.endswith('.txt') or re.match(r'^[\d_]+\.[a-zA-Z0-9]+$', file_name_lower):
-                    print("-> Using [Sabadell] module")
+                    logger.info("-> Using [Sabadell] module")
                     sabadell.process(event.src_path, OUT_FOLDER, file_name)
                 
                 else:
-                    print(f"❌ This file is not asociated to any bank: {file_name}")
+                    logger.info(f"{ERROR_RED}❌ This file is not asociated to any bank: {file_name}{RESET_COLOR}")
                     return
 
                 # Delete the original file from /excel
                 os.remove(event.src_path)
-                
-                # Cleaning
-                clean_old_csv()
 
             except Exception as e:
-                print(f"💥 Error processing {file_name}: {e}")
+                logger.info(f"{ERROR_RED}💥 Error processing {file_name}: {e}{RESET_COLOR}")
 
 if __name__ == "__main__":
     os.makedirs(IN_FOLDER, exist_ok=True)
@@ -87,7 +97,8 @@ if __name__ == "__main__":
     observer = Observer()
     observer.schedule(FilesMonitor(), path=IN_FOLDER, recursive=False)
     observer.start()
-    print(f"🤖 Watching {IN_FOLDER} (Excel/TXT), exporting to {OUT_FOLDER}...")
+    logger.info("Starting the app")
+    logger.info(f"🤖 Watching {IN_FOLDER} (Excel/TXT), exporting to {OUT_FOLDER}...")
     
     try:
         while True:

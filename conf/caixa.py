@@ -1,6 +1,17 @@
 # conf/caixa.py
 import os
+import logging
 import pandas as pd
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger()
+
+ERROR_RED = "\033[1;31m"
+RESET_COLOR = "\033[0m"
 
 def process(source_path, output_path, file_name):
     """
@@ -20,7 +31,7 @@ def process(source_path, output_path, file_name):
     if header_row is None:
         raise ValueError("❌ [Caixa] The row containing 'Fecha' was not found in the file.")
         
-    print(f"[Caixa] 'Fecha' detected on line: {header_row + 1}")
+    logger.info(f"[Caixa] 'Fecha' detected on line: {header_row + 1}")
     
     df_clean = pd.read_excel(source_path, skiprows=header_row)
     df_clean = df_clean.dropna(how='all')
@@ -35,4 +46,4 @@ def process(source_path, output_path, file_name):
     base_name = os.path.splitext(file_name)[0]
     output_path = os.path.join(output_path, f"CA_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
-    print(f"✅ [Caixa] CSV successfully saved to: {output_path}")
+    logger.info(f"✅ [Caixa] CSV successfully saved to: {output_path}")
