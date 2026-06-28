@@ -25,6 +25,13 @@ def process(source_path, output_path, file_name):
     df_clean = pd.read_excel(source_path, skiprows=header_row)
     df_clean = df_clean.dropna(how='all')
 
+    date_columns = ['Fecha', 'Fecha valor']
+    for column in date_columns:
+        if column in df_clean.columns:
+            df_clean[column] = pd.to_datetime(df_clean[column], errors='coerce')
+            df_clean[column] = df_clean[column].dt.strftime('%d/%m/%Y')
+
+
     base_name = os.path.splitext(file_name)[0]
     output_path = os.path.join(output_path, f"CA_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
