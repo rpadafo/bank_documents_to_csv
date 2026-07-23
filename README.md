@@ -2,7 +2,7 @@
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
-![GitHub Tag](https://img.shields.io/github/v/tag/rpadafo/bank_documents_to_csv?style=for-the-badge&color=blue)
+![GHCR Version](https://img.shields.io/github/v/tag/rpadafo/bank_documents_to_csv?label=version&style=for-the-badge&color=blue)
 
 Automated background service to convert Excel and TXT export files from Spanish banks into standardized CSV files, perfectly formatted for seamless import into **[Actual Budget](https://actualbudget.org/)**.
 
