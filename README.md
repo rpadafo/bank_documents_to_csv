@@ -2,7 +2,7 @@
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
-![GitHub Release](https://img.shields.io/github/v/release/rpadafo/bank_documents_to_csv?style=for-the-badge&color=blue)
+![GitHub Tag](https://img.shields.io/github/v/tag/rpadafo/bank_documents_to_csv?style=for-the-badge&color=blue)
 
 Automated background service to convert Excel and TXT export files from Spanish banks into standardized CSV files, perfectly formatted for seamless import into **[Actual Budget](https://actualbudget.org/)**.
 
@@ -36,8 +36,6 @@ Automated background service to convert Excel and TXT export files from Spanish 
 
 ## 🛠️ Deployment & Usage
 
-### 1. Docker Compose Setup
-
 Use the following `docker-compose.yml` snippet to deploy the container:
 
 ```yaml
@@ -56,3 +54,14 @@ services:
     volumes:
       - /path/to/your/excel:/excel
       - /path/to/your/csv:/csv
+    #Optional >>
+    networks:
+        lan:
+            ipv4_address: 192.168.x.x
+            mac_address: "02:42:C0:xx:xx:xx"
+    dns:
+            - 8.8.8.8
+networks:
+    lan:
+        external: true
+#Optional <<
