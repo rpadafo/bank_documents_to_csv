@@ -18,7 +18,8 @@ def process(source_path, output_path, file_name):
     """
     # Generamos el nombre final cambiando .txt por .csv
     base_name = os.path.splitext(file_name)[0]
-    csv_path = os.path.join(output_path, f"BS_{base_name}.csv")
+    prefix = os.environ.get("PREFIX_SABADELL", "BS")
+    csv_path = os.path.join(output_path, f"{prefix}_{base_name}.csv")
     
     with open(source_path, 'rb') as f_source:
         content = f_source.read()

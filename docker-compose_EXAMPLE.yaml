@@ -5,6 +5,10 @@ services:
     restart: unless-stopped
     environment:
       - RETENTION_HOUR=12
+      - PREFIX_BANKINTER=BANK
+      - PREFIX_CAIXA=CAIX
+      - PREFIX_SABADELL=SABA
+      - PREFIX_SANTANDER=SANT
     deploy:
         resources:
             limits:
