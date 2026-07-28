@@ -46,6 +46,10 @@ services:
     restart: unless-stopped
     environment:
       - HORAS_RETENCION=12 # Retention time in hours before auto-deleting CSV files
+      - PREFIX_BANKINTER=BANK
+      - PREFIX_CAIXA=CAIX
+      - PREFIX_SABADELL=SABA
+      - PREFIX_SANTANDER=SANT
     deploy:
       resources:
         limits:

@@ -37,6 +37,7 @@ def process(source_path, output_path, file_name):
     df_clean = df_clean.dropna(how='all')
 
     base_name = os.path.splitext(file_name)[0]
-    output_path = os.path.join(output_path, f"SA_{base_name}.csv")
+    prefix = os.environ.get("PREFIX_SANTANDER", "SA")
+    output_path = os.path.join(output_path, f"{prefix}_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
     logger.info(f"[Santander] ✅ CSV successfully saved to: {output_path}")

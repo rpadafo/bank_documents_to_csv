@@ -44,6 +44,7 @@ def process(source_path, output_path, file_name):
 
 
     base_name = os.path.splitext(file_name)[0]
-    output_path = os.path.join(output_path, f"CA_{base_name}.csv")
+    prefix = os.environ.get("PREFIX_CAIXA", "CA")
+    output_path = os.path.join(output_path, f"{prefix}_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';')
     logger.info(f"[Caixa] ✅ CSV successfully saved to: {output_path}")
