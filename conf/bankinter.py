@@ -37,6 +37,6 @@ def process(source_path, output_path, file_name):
 
     base_name = os.path.splitext(file_name)[0]
     prefix = os.environ.get("PREFIX_BANKINTER", "BK")
-    output_path = os.path.join(output_path, f"BK_{base_name}.csv")
+    output_path = os.path.join(output_path, f"{prefix}_{base_name}.csv")
     df_clean.to_csv(output_path, index=False, encoding='utf-8', sep=';', decimal=',')
     logger.info(f"[Bankinter] ✅ CSV successfully saved to: {output_path}")

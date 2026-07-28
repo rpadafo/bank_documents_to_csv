@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - RETENTION_HOUR=12
+      #optional >>
       - PREFIX_BANKINTER=BANK
       - PREFIX_CAIXA=CAIX
       - PREFIX_SABADELL=SABA
