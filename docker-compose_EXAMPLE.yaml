@@ -10,6 +10,7 @@ services:
       - PREFIX_CAIXA=CAIX
       - PREFIX_SABADELL=SABA
       - PREFIX_SANTANDER=SANT
+      - PREFIX_TRADEREPUBLIC=TR
     deploy:
         resources:
             limits:

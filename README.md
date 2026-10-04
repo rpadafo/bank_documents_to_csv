@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/rpadafo/bank_documents_to_csv/docker-publish.yml?branch=main&style=for-the-badge&logo=github)
 
-Automated background service to convert Excel and TXT export files from Spanish banks into standardized CSV files, perfectly formatted for seamless import into **[Actual Budget](https://actualbudget.org/)**.
+Automated background service to convert Excel and TXT exports from Spanish banks into standardized CSV files, and to copy supported CSV exports unchanged, for seamless import into **[Actual Budget](https://actualbudget.org/)**.
 
 ---
 
@@ -31,6 +31,7 @@ Automated background service to convert Excel and TXT export files from Spanish 
 | **CaixaBank** | `.xlsx` / `.xls` | `LC_*.csv` |
 | **Banco Santander** | `.xlsx` / `.xls` | `SA_*.csv` |
 | **Banco Sabadell** | `.txt` | `BS_*.csv` |
+| **Trade Republic** | `Exportación de transacción.csv` | `TR_*.csv` |
 
 ---
 
@@ -50,6 +51,7 @@ services:
       - PREFIX_CAIXA=CAIX
       - PREFIX_SABADELL=SABA
       - PREFIX_SANTANDER=SANT
+      - PREFIX_TRADEREPUBLIC=TR
     deploy:
       resources:
         limits:
