@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import logging
 from watchdog.observers import Observer
@@ -9,6 +10,7 @@ import bankinter
 import sabadell
 import caixa
 import santander
+import traderepublic
 
 IN_FOLDER = "/excel"
 OUT_FOLDER = "/csv"
@@ -55,27 +57,32 @@ class FilesMonitor(FileSystemEventHandler):
         file_name = os.path.basename(event.src_path)
         file_name_lower = file_name.lower()
 
-        if file_name_lower.endswith(('.xlsx', '.xls', '.txt')):
+        if file_name_lower.endswith(('.xlsx', '.xls', '.txt', '.csv')):
             logger.info(f"⚡ Find: {file_name}")
             time.sleep(2) # Wait for complete copy
             
             try:
-                # 1. SANTANDER (Files starts with transactions)
-                if file_name_lower.startswith("transactions"):
+                # 1. TRADE REPUBLIC
+                if file_name_lower == "exportación de transacción.csv":
+                    logger.info("-> Using [Trade Republic] module")
+                    traderepublic.process(event.src_path, OUT_FOLDER, file_name)
+
+                # 2. SANTANDER (Files starts with transactions)
+                elif file_name_lower.startswith("transactions"):
                     logger.info("-> Using [Santander] module")
                     santander.process(event.src_path,OUT_FOLDER,file_name)
 
-                # 2. LA CAIXA
+                # 3. LA CAIXA
                 elif file_name_lower.startswith("movimientos_cuenta"):
                     logger.info("-> Using [Caixa] module")
                     caixa.process(event.src_path,OUT_FOLDER,file_name)
 
-                # 3. BANKINTER
+                # 4. BANKINTER
                 elif file_name_lower.startswith("movimientos"):
                     logger.info("-> Using [Bankinter] module")
                     bankinter.process(event.src_path,OUT_FOLDER,file_name)
 
-                # 4. CASO SABADELL
+                # 5. CASO SABADELL
                 elif file_name_lower.endswith('.txt') or re.match(r'^[\d_]+\.[a-zA-Z0-9]+$', file_name_lower):
                     logger.info("-> Using [Sabadell] module")
                     sabadell.process(event.src_path, OUT_FOLDER, file_name)
