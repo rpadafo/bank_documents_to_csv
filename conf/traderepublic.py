@@ -40,7 +40,7 @@ def process(source_path, output_path, file_name):
         elif not tax:
             amount_calc = amount
         else:
-            amount_calc = str(Decimal(amount) - Decimal(tax))
+            amount_calc = str(Decimal(amount) + Decimal(tax))
         row.append(amount_calc)
 
     with open(csv_path, 'w', encoding='utf-8', newline='') as destination_file:
